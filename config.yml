@@ -1,6 +1,12 @@
 ---
-# Use `rpm --eval "%{dist}"` to retrieve this value.
-zfs_dist: ".el9"
-
 security_sudoers_passwordless:
-  - admin
+  - jgeerling
+
+zfs_pool_name: zfspool
+zfs_pool_members:
+  - /dev/disk/by-id/wwn-0x5000c500e3da1887  # sdc
+  - /dev/disk/by-id/wwn-0x5000c500e3d9c525  # sdg
+  - /dev/disk/by-id/wwn-0x5000c500e3d9c560  # sdh
+  - /dev/disk/by-id/wwn-0x5000c500e3d61ce0  # sdi
+  - /dev/disk/by-id/wwn-0x5000c500e3d4848c  # sdj
+  - /dev/disk/by-id/wwn-0x5000c500e3d5107b  # sdk

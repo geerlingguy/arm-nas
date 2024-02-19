@@ -2,7 +2,7 @@
 
 Ansible playbook to configure my 45Homelab HL15 NAS, running on an Arm64 CPU.
 
-TODO.
+This playbook assumes you're running Ubuntu 20.04 Server LTS.
 
 ## Running the playbook
 
@@ -11,7 +11,3 @@ Ensure you have Ansible installed, and can SSH into the NAS using `ssh user@nas-
 ```
 ansible-playbook main.yml
 ```
-
-## Accessing Cockpit Web UI
-
-The cockpit web UI should be accessible at: https://server-ip:9090
