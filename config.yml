@@ -1,0 +1,3 @@
+---
+security_sudoers_passwordless:
+  - admin

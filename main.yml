@@ -1,0 +1,48 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+
+  vars_files:
+    - config.yml
+
+  roles:
+    - geerlingguy.repo-epel
+    - geerlingguy.security
+
+  tasks:
+    # - name: Change all domains to permissive
+    #   community.general.selinux_permissive:
+    #     name: '*'
+    #     permissive: true
+
+    - name: Disable SELinux
+      ansible.posix.selinux:
+        state: disabled
+
+    - name: Install Houston UI packages
+      package:
+        name:
+          - cockpit
+          - cockpit-pcp
+          # - cockpit-zfs-manager
+          # - cockpit-benchmark
+          - cockpit-navigator
+          - cockpit-file-sharing
+          # - cockpit-45drives-hardware
+          - cockpit-machines
+          - cockpit-sosreport
+        state: present
+
+    - name: Permit cockpit traffic in firewall
+      ansible.posix.firewalld:
+        service: cockpit
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Ensure cockpit is running and enabled at boot
+      ansible.builtin.systemd_service:
+        name: cockpit.socket
+        enabled: true
+        state: started
