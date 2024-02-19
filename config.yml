@@ -1,3 +1,6 @@
 ---
+# Use `rpm --eval "%{dist}"` to retrieve this value.
+zfs_dist: ".el9"
+
 security_sudoers_passwordless:
   - admin

@@ -20,19 +20,37 @@
       ansible.posix.selinux:
         state: disabled
 
+    - name: Install ZFS
+      import_tasks: tasks/zfs.yml
+      tags: ['zfs']
+
+    - name: Add 45Drives repository
+      ansible.builtin.yum_repository:
+        name: 45drives
+        description: 45Drives Repository
+        baseurl: https://repo.45drives.com/rhel/el8/stable/
+      register: yum_repo_add
+      tags: ['repo']
+
+    - name: Clean caches when repo changes
+      ansible.builtin.shell: dnf clean all && dnf makecache
+      when: yum_repo_add is changed
+      tags: ['repo']
+
     - name: Install Houston UI packages
       package:
         name:
           - cockpit
           - cockpit-pcp
-          # - cockpit-zfs-manager
-          # - cockpit-benchmark
+          - cockpit-zfs-manager
+          - cockpit-benchmark
           - cockpit-navigator
           - cockpit-file-sharing
-          # - cockpit-45drives-hardware
+          - cockpit-45drives-hardware
           - cockpit-machines
           - cockpit-sosreport
         state: present
+      tags: ['packages']
 
     - name: Permit cockpit traffic in firewall
       ansible.posix.firewalld:

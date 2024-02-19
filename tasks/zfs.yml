@@ -1,0 +1,21 @@
+---
+- name: Import ZFS rpm key
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://raw.githubusercontent.com/zfsonlinux/zfsonlinux.github.com/master/zfs-release/RPM-GPG-KEY-openzfs-key2
+
+- name: Install ZFS repository
+  ansible.builtin.dnf:
+    name: "https://zfsonlinux.org/epel/zfs-release-2-3{{ zfs_dist }}.noarch.rpm"
+    state: present
+  register: yum_repo_add
+
+- name: Clean caches when repo changes
+  ansible.builtin.shell: dnf clean all && dnf makecache
+  when: yum_repo_add is changed
+
+- name: Install ZFS and kernel dependencies
+  ansible.builtin.package:
+    name:
+      - kernel-devel
+      - zfs
