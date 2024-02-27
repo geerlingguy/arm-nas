@@ -10,14 +10,8 @@
     - geerlingguy.security
     - geerlingguy.samba
 
-  handlers:
-    - name: restart samba
-      ansible.builtin.service:
-        name: smbd
-        state: restarted
-
   tasks:
-    - name: Install ZFS and prerequisites
+    - name: Install ZFS and prerequisites.
       ansible.builtin.package:
         name:
           - linux-headers-generic
@@ -26,7 +20,8 @@
           - samba
       tags: ['zfs']
 
-    - name: Create ZFS pool of HDDs
+    - name: Create ZFS pools.
       ansible.builtin.command:
-        cmd: zpool create {{ zfs_pool_name }} raidz2 {{ zfs_pool_members | join(' ') }} -f
-        creates: /{{ zfs_pool_name }}
+        cmd: zpool create {{ item.name }} {{ item.members }} -f
+        creates: /{{ item.name }}
+      loop: "{{ zfs_pools }}"

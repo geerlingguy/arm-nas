@@ -2,11 +2,22 @@
 security_sudoers_passwordless:
   - jgeerling
 
-zfs_pool_name: zfspool
-zfs_pool_members:
-  - /dev/disk/by-id/wwn-0x5000c500e3da1887  # sdc
-  - /dev/disk/by-id/wwn-0x5000c500e3d9c525  # sdg
-  - /dev/disk/by-id/wwn-0x5000c500e3d9c560  # sdh
-  - /dev/disk/by-id/wwn-0x5000c500e3d61ce0  # sdi
-  - /dev/disk/by-id/wwn-0x5000c500e3d4848c  # sdj
-  - /dev/disk/by-id/wwn-0x5000c500e3d5107b  # sdk
+# For `members` key, format as the end of the `zpool create` command.
+zfs_pools:
+  - name: hddpool
+    members: >-
+      raidz2
+      /dev/disk/by-id/wwn-0x5000c500e3da1887
+      /dev/disk/by-id/wwn-0x5000c500e3d9c525
+      /dev/disk/by-id/wwn-0x5000c500e3d9c560
+      /dev/disk/by-id/wwn-0x5000c500e3d61ce0
+      /dev/disk/by-id/wwn-0x5000c500e3d4848c
+      /dev/disk/by-id/wwn-0x5000c500e3d5107b
+  - name: ssdpool
+    members: >-
+      mirror
+      scsi-SATA_Samsung_SSD_870_S5VUNG0NA00552B
+      scsi-SATA_Samsung_SSD_870_S5VUNG0R403210A
+      mirror
+      scsi-SATA_Samsung_SSD_870_S5VUNJ0R801559R
+      scsi-SATA_Samsung_SSD_870_S5VUNJ0R802311N
