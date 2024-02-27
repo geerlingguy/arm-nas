@@ -4,6 +4,30 @@ Ansible playbook to configure my 45Homelab HL15 NAS, running on an Arm64 CPU.
 
 This playbook assumes you're running Ubuntu 20.04 Server LTS.
 
+## Hardware
+
+<p align="center"><img alt="45Homelab HL15 with Jeff Geerling hardware" src="/resources/hl15-hardware.jpeg" height="auto" width="600"></p>
+
+The current iteration of the HL15 I'm running contains the following hardware:
+
+  - (Motherboard) [ASRock Rack ALTRAD8UD-1L2T](https://reurl.cc/qrnXNp) ([specs](https://reurl.cc/67jk0V))
+  - (Case) [45Homelab HL15 + backplane + PSU](https://store.45homelab.com/configure/hl15)
+  - (PSU) [Corsair RM750e](https://amzn.to/3OyDQ79)
+  - (RAM) [8x Samsung 16GB 1Rx4 ECC RDIMM M393A2K40DB3-CWE PC25600](https://amzn.to/49lCtkb)
+  - (NVMe) [Kioxia XG8 2TB NVMe SSD](https://amzn.to/3Uzag5d)
+  - (CPU) [Ampere Altra Q32-17](https://amperecomputing.com/briefs/ampere-altra-family-product-brief)
+  - (SSDs) [4x Samsung 8TB 870 QVO 2.5" SATA](https://amzn.to/3OylbZk)
+  - (HDDs) [6x Seagate EXOS 20TB SATA HDD](https://amzn.to/3OA2CDM)
+  - (HBA) [Broadcom MegaRAID 9405W-16i](https://amzn.to/3srcZOh)
+  - (Cooler) [Noctua NH-D9 AMP-4926 4U](https://noctua.at/en/nh-d9-amp-4926-4u)
+  - (Case Fans) [6x Noctua NF-A12x25 PWM](https://amzn.to/3SUReE7)
+  - (Fan Hub) [Noctua NA-FH1 8 channel Fan Hub](https://amzn.to/3SVPL01)
+
+Some of the above links are affiliate links. I have a series of videos showing how I put this system together:
+
+  - Part 1: [How efficient can I build the 100% Arm NAS?](https://www.youtube.com/watch?v=Hz5k5WgTkcc)
+  - Part 2: _Coming soon..._
+
 ## Running the playbook
 
 Ensure you have Ansible installed, and can SSH into the NAS using `ssh user@nas-ip-or-address` without entering a password, then run:
