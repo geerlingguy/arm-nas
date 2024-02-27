@@ -25,3 +25,24 @@
         cmd: zpool create {{ item.name }} {{ item.members }} -f
         creates: /{{ item.name }}
       loop: "{{ zfs_pools }}"
+
+    - name: Create Samba shares.
+      community.general.zfs:
+        name: "{{ item.name }}"
+        state: present
+        extra_zfs_properties: "{{ item.extra_zfs_properties }}"
+      loop: "{{ zfs_samba_shares }}"
+
+    - name: Configure ownership on Samba shares.
+      ansible.builtin.file:
+        path: "/{{ item.name }}"
+        state: directory
+        owner: "{{ zfs_samba_owner }}"
+        group: "{{ zfs_samba_group }}"
+        mode: 0775
+      loop: "{{ zfs_samba_shares }}"
+
+    # TODO: See https://stackoverflow.com/a/46428282/100134
+    # For now, manually run `sudo smbpasswd -a jgeerling`
+    - name: Configure Samba passwords (not yet implemented).
+      ansible.builtin.meta: noop

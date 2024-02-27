@@ -36,6 +36,20 @@ Ensure you have Ansible installed, and can SSH into the NAS using `ssh user@nas-
 ansible-playbook main.yml
 ```
 
+## Accessing Samba Shares
+
+After the playbook runs, you should be able to access Samba shares, for example the `hddpool/jupiter` share, by connecting to the server at the path:
+
+```
+smb://nas01.mmoffice.net/hddpool_jupiter
+```
+
+Until [issue #2](https://github.com/geerlingguy/hl15-arm64-nas/issues/2) is resolved, there is one manual step required to add a password for the `jgeerling` user (one time). Log into the server via SSH, run the following command, and enter a password when prompted:
+
+```
+sudo smbpasswd -a jgeerling
+```
+
 ## Benchmarks
 
 There's a disk benchmarking script included, which allows me to test various performance scenarios on the server.

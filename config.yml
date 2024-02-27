@@ -21,3 +21,17 @@ zfs_pools:
       mirror
       scsi-SATA_Samsung_SSD_870_S5VUNJ0R801559R
       scsi-SATA_Samsung_SSD_870_S5VUNJ0R802311N
+
+zfs_samba_shares:
+  - name: hddpool/jupiter
+    extra_zfs_properties:
+      casesensitivity: 'mixed'
+      sharesmb: 'on'
+  - name: ssdpool/mercury
+    extra_zfs_properties:
+      casesensitivity: 'mixed'
+      sharesmb: 'on'
+
+# Ownership for the samba share directories.
+zfs_samba_owner: "{{ ansible_user }}"
+zfs_samba_group: sudo
