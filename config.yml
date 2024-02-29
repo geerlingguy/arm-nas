@@ -2,6 +2,8 @@
 security_sudoers_passwordless:
   - jgeerling
 
+samba_daemon: smbd
+
 # For `members` key, format as the end of the `zpool create` command.
 zfs_pools:
   - name: hddpool
@@ -26,11 +28,13 @@ zfs_samba_shares:
   - name: hddpool/jupiter
     extra_zfs_properties:
       casesensitivity: 'mixed'
-      sharesmb: 'on'
+    smb_share_name: jupiter
+    smb_comment: Archival storage pool on HDDs.
   - name: ssdpool/mercury
     extra_zfs_properties:
       casesensitivity: 'mixed'
-      sharesmb: 'on'
+    smb_share_name: mercury
+    smb_comment: Fast storage pool on SSDs.
 
 # Ownership for the samba share directories.
 zfs_samba_owner: "{{ ansible_user }}"

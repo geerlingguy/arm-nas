@@ -25,13 +25,42 @@
         cmd: zpool create {{ item.name }} {{ item.members }} -f
         creates: /{{ item.name }}
       loop: "{{ zfs_pools }}"
+      tags: ['zfs']
 
-    - name: Create Samba shares.
+    - name: Create volumes for Samba shares.
       community.general.zfs:
         name: "{{ item.name }}"
         state: present
         extra_zfs_properties: "{{ item.extra_zfs_properties }}"
       loop: "{{ zfs_samba_shares }}"
+      tags: ['zfs', 'samba']
+
+    - name: Configure Samba to use usershares.
+      community.general.ini_file:
+        path: /etc/samba/smb.conf
+        section: global
+        option: "{{ item.option }}"
+        value: "{{ item.value }}"
+        backup: false
+        mode: 0644
+      loop:
+        - { option: usershare path, value: /var/lib/samba/usershares }
+        - { option: usershare max shares, value: 100 }
+        - { option: usershare allow guests, value: 'yes' }
+        - { option: usershare owner only, value: 'no' }
+      notify: restart smb
+      tags: ['samba']
+
+    - name: Configure Samba usershares.
+      ansible.builtin.template:
+        src: templates/smb-share.conf.j2
+        dest: /var/lib/samba/usershares/{{ item.smb_share_name }}
+        owner: root
+        group: root
+        mode: 0644
+      loop: "{{ zfs_samba_shares }}"
+      notify: restart smb
+      tags: ['samba']
 
     - name: Configure ownership on Samba shares.
       ansible.builtin.file:
@@ -41,8 +70,10 @@
         group: "{{ zfs_samba_group }}"
         mode: 0775
       loop: "{{ zfs_samba_shares }}"
+      tags: ['samba']
 
     # TODO: See https://stackoverflow.com/a/46428282/100134
     # For now, manually run `sudo smbpasswd -a jgeerling`
     - name: Configure Samba passwords (not yet implemented).
       ansible.builtin.meta: noop
+      tags: ['samba']

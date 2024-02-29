@@ -1,0 +1,6 @@
+#VERSION 2
+path=/{{ item.name }}
+comment={{ item.smb_comment }} ({{ ansible_managed }})
+usershare_acl=S-1-1-0:F
+guest_ok=n
+sharename={{ item.smb_share_name }}
