@@ -26,7 +26,7 @@ The current iteration of the HL15 I'm running contains the following hardware:
 Some of the above links are affiliate links. I have a series of videos showing how I put this system together:
 
   - Part 1: [How efficient can I build the 100% Arm NAS?](https://www.youtube.com/watch?v=Hz5k5WgTkcc)
-  - Part 2: _Coming soon..._
+  - Part 2: [Silencing the 100% Arm NAS—while making it FASTER?](https://www.youtube.com/watch?v=iD9awxmOGG4)
 
 ## Running the playbook
 
