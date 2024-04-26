@@ -51,6 +51,22 @@ Some of the above links are affiliate links. I have a series of videos showing h
   - Part 1: [The ULTIMATE Raspberry Pi 5 NAS](https://www.youtube.com/watch?v=l30sADfDiM8)
   - Part 2: Coming soon.
 
+## Preparing the hardware
+
+The HL15 should not require any special prep, besides having Ubuntu installed. The Raspberry Pi 5 needs its PCIe connection enabled. To do that:
+
+  1. Edit the boot config: `sudo nano /boot/firmware/config.txt`
+  2. Add in the following config at the bottom and save the file:
+
+     ```
+     dtparam=pciex1
+     dtparam=pciex1_gen=3
+     ```
+  
+  3. Reboot
+
+Confirm the SATA drives are recognized with `lsblk`.
+
 ## Running the playbook
 
 Ensure you have Ansible installed, and can SSH into the NAS using `ssh user@nas-ip-or-address` without entering a password, then run:
