@@ -1,10 +1,15 @@
-# HL15 Arm64 NAS
+# Arm NAS
 
-Ansible playbook to configure my 45Homelab HL15 NAS, running on an Arm64 CPU.
+Ansible playbook to configure my Arm NASes:
 
-This playbook assumes you're running Ubuntu 20.04 Server LTS.
+  - [HL15 with Ampere Altra](https://www.youtube.com/watch?v=Hz5k5WgTkcc)
+  - [Raspberry Pi 5 SATA NAS](https://www.youtube.com/watch?v=l30sADfDiM8)
+
+This playbook assumes you're running Ubuntu 20.04 Server LTS and/or Debian 12.
 
 ## Hardware
+
+### Primary NAS - 45Drives HL15
 
 <p align="center"><img alt="45Homelab HL15 with Jeff Geerling hardware" src="/resources/hl15-hardware.jpeg" height="auto" width="600"></p>
 
@@ -27,6 +32,24 @@ Some of the above links are affiliate links. I have a series of videos showing h
 
   - Part 1: [How efficient can I build the 100% Arm NAS?](https://www.youtube.com/watch?v=Hz5k5WgTkcc)
   - Part 2: [Silencing the 100% Arm NAS—while making it FASTER?](https://www.youtube.com/watch?v=iD9awxmOGG4)
+
+### Secondary NAS - Raspberry Pi 5 with SATA HAT
+
+<p align="center"><img alt="Raspberry Pi 5 with Jeff Geerling hardware" src="/resources/raspberrypi-5-hardware.jpeg" height="auto" width="600"></p>
+
+The current iteration of the Raspberry Pi 5 SATA NAS I'm running contains the following hardware:
+
+  - (SBC) [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/)
+  - (HAT) [Radxa Penta SATA HAT for Pi 5](https://amzn.to/3UyWXBr)
+  - (SSDs) [Samsung 870 QVO 8TB SATA SSD](https://amzn.to/3y2nrSR)
+  - (microSD) [Kingston Industrial 16GB A1](https://amzn.to/3y2noGF)
+  - (Network) [Plugable 2.5GB USB Ethernet Adapter](https://amzn.to/4b9QMt1)
+  - (Power) [TMEZON 12V 5A AC adapter](https://amzn.to/3QhYKIw)
+
+Some of the above links are affiliate links. I have a series of videos showing how I put this system together:
+
+  - Part 1: [The ULTIMATE Raspberry Pi 5 NAS](https://www.youtube.com/watch?v=l30sADfDiM8)
+  - Part 2: Coming soon.
 
 ## Running the playbook
 
