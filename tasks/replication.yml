@@ -1,0 +1,55 @@
+---
+- name: Configure SSH keypair on Pi.
+  block:
+    - name: Ensure .ssh directory exists on Pi.
+      ansible.builtin.file:
+        path: /home/pi/.ssh
+        state: directory
+        mode: 0700
+
+    - name: Generate SSH keypair for pi user on Pi.
+      community.crypto.openssh_keypair:
+        path: /home/pi/.ssh/id_rsa_zfs
+        type: rsa
+        size: 4096
+        state: present
+        owner: pi
+        group: pi
+
+    - name: Retrieve SSH pubkey for pi user on Pi.
+      ansible.builtin.slurp:
+        src: /home/pi/.ssh/id_rsa_zfs.pub
+      register: pi_zfs_pubkey
+
+    - name: Accept hostkey for HL15 on Pi.
+      ansible.builtin.known_hosts:
+        name: nas01.mmoffice.net
+        key: nas01.mmoffice.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGttqA5odftU8N9AN05zByZxOzcuHkNNRGcZQfsLT6V/
+        path: /etc/ssh/ssh_known_hosts
+        state: present
+  delegate_to: nas02.mmoffice.net
+
+- name: Configure pi user on HL15.
+  block:
+    - name: Create pi user on HL15.
+      ansible.builtin.user:
+        name: pi
+        shell: /bin/bash
+        create_home: true
+        state: present
+
+    - name: Ensure pi user homedir is owned by pi.
+      ansible.builtin.file:
+        path: /home/pi
+        owner: pi
+        group: pi
+
+    - name: Add pi user's SSH key to account on HL15.
+      ansible.posix.authorized_key:
+        user: pi
+        state: present
+        key: "{{ pi_zfs_pubkey['content'] | b64decode | trim }} pi@nas02"
+
+    - name: Configure sudoers so pi user can perform ZFS actions.
+      meta: noop  # TODO
+  delegate_to: nas01.mmoffice.net

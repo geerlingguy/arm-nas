@@ -1,0 +1,37 @@
+---
+# Raspberry Pi 5 Variables.
+
+# For `members` key, format as the end of the `zpool create` command.
+zfs_pools:
+  - name: ssdpool
+    members: >-
+      raidz1
+      /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNG0NA00552B
+      /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNG0R403210A
+      /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R801559R
+      /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R802311N
+
+zfs_samba_shares:
+  - name: ssdpool/backup
+    extra_zfs_properties:
+      casesensitivity: 'mixed'
+      compression: 'lz4'
+    smb_share_name: backup
+    smb_comment: Backup storage pool on SSDs.
+
+# TODO: See https://lyz-code.github.io/blue-book/sanoid/#configuration_1
+# sanoid_conf: >
+#   # Filesystem Backups
+#   [ssdpool/backup]
+#     use_template = production
+#     recursive = yes
+
+#   # Templates
+#   [ssdpool_production]
+#     frequently = 0
+#     hourly = 36
+#     daily = 30
+#     monthly = 3
+#     yearly = 0
+#     autosnap = yes
+#     autoprune = yes

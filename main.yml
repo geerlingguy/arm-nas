@@ -9,6 +9,7 @@
   roles:
     - geerlingguy.security
     - geerlingguy.samba
+    - geerlingguy.sanoid
 
   tasks:
     - name: Install ZFS and prerequisites.
@@ -77,3 +78,6 @@
     - name: Configure Samba passwords (not yet implemented).
       ansible.builtin.meta: noop
       tags: ['samba']
+
+    - name: Configure user for ZFS replication.
+      include_tasks: tasks/replication.yml

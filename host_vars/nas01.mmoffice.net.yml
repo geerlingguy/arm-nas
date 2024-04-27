@@ -1,0 +1,51 @@
+---
+# HL15 Variables.
+
+# For `members` key, format as the end of the `zpool create` command.
+zfs_pools:
+  - name: hddpool
+    members: >-
+      raidz2
+      /dev/disk/by-id/wwn-0x5000c500e3da1887
+      /dev/disk/by-id/wwn-0x5000c500e3d9c525
+      /dev/disk/by-id/wwn-0x5000c500e3d9c560
+      /dev/disk/by-id/wwn-0x5000c500e3d61ce0
+      /dev/disk/by-id/wwn-0x5000c500e3d4848c
+      /dev/disk/by-id/wwn-0x5000c500e3d5107b
+  # - name: ssdpool
+  #   members: >-
+  #     mirror
+  #     scsi-SATA_Samsung_SSD_870_S5VUNG0NA00552B
+  #     scsi-SATA_Samsung_SSD_870_S5VUNG0R403210A
+  #     mirror
+  #     scsi-SATA_Samsung_SSD_870_S5VUNJ0R801559R
+  #     scsi-SATA_Samsung_SSD_870_S5VUNJ0R802311N
+
+zfs_samba_shares:
+  - name: hddpool/jupiter
+    extra_zfs_properties:
+      casesensitivity: 'mixed'
+      compression: 'lz4'
+    smb_share_name: jupiter
+    smb_comment: Archival storage pool on HDDs.
+  # - name: ssdpool/mercury
+  #   extra_zfs_properties:
+  #     casesensitivity: 'mixed'
+  #   smb_share_name: mercury
+  #   smb_comment: Fast storage pool on SSDs.
+
+sanoid_conf: >
+  # Filesystem Backups
+  [hddpool/jupiter]
+    use_template = production
+    recursive = yes
+
+  # Templates
+  [template_production]
+    frequently = 0
+    hourly = 36
+    daily = 30
+    monthly = 3
+    yearly = 0
+    autosnap = yes
+    autoprune = yes

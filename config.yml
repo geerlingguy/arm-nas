@@ -1,40 +1,13 @@
 ---
 security_sudoers_passwordless:
-  - jgeerling
+  - "{{ ansible_user }}"
 
 samba_daemon: smbd
 
-# For `members` key, format as the end of the `zpool create` command.
-zfs_pools:
-  - name: hddpool
-    members: >-
-      raidz2
-      /dev/disk/by-id/wwn-0x5000c500e3da1887
-      /dev/disk/by-id/wwn-0x5000c500e3d9c525
-      /dev/disk/by-id/wwn-0x5000c500e3d9c560
-      /dev/disk/by-id/wwn-0x5000c500e3d61ce0
-      /dev/disk/by-id/wwn-0x5000c500e3d4848c
-      /dev/disk/by-id/wwn-0x5000c500e3d5107b
-  # - name: ssdpool
-  #   members: >-
-  #     mirror
-  #     scsi-SATA_Samsung_SSD_870_S5VUNG0NA00552B
-  #     scsi-SATA_Samsung_SSD_870_S5VUNG0R403210A
-  #     mirror
-  #     scsi-SATA_Samsung_SSD_870_S5VUNJ0R801559R
-  #     scsi-SATA_Samsung_SSD_870_S5VUNJ0R802311N
-
-zfs_samba_shares:
-  - name: hddpool/jupiter
-    extra_zfs_properties:
-      casesensitivity: 'mixed'
-    smb_share_name: jupiter
-    smb_comment: Archival storage pool on HDDs.
-  # - name: ssdpool/mercury
-  #   extra_zfs_properties:
-  #     casesensitivity: 'mixed'
-  #   smb_share_name: mercury
-  #   smb_comment: Fast storage pool on SSDs.
+# These variables must be defined per-host, in host_vars.
+# zfs_pools: []
+# zfs_samba_shares: []
+# sanoid_conf: ""
 
 # Ownership for the samba share directories.
 zfs_samba_owner: "{{ ansible_user }}"
