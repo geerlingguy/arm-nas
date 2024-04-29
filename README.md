@@ -89,6 +89,26 @@ Until [issue #2](https://github.com/geerlingguy/hl15-arm64-nas/issues/2) is reso
 sudo smbpasswd -a jgeerling
 ```
 
+## Replication / Backups
+
+Backups of the primary NAS (nas01) to the secondary NAS (nas02) are handled using [Sanoid](https://github.com/jimsalterjrs/sanoid) (and it's included `syncoid` replication tool).
+
+Sanoid is configured on nas01 to store a set of monthly, daily, and hourly snapshots. Syncoid is run on cron on nas02 to pull snapshots nightly.
+
+Sanoid should prune snapshots on nas01, and Syncoid on nas02.
+
+You can check on snapshot health with:
+
+  - nas01: `sudo sanoid --monitor-snapshots && zfs list -t snapshot`
+  - nas02: `zfs list -t snapshot`
+
+For example:
+
+```
+jgeerling@nas01:~$ sudo sanoid --monitor-snapshots
+OK: all monitored datasets (hddpool/jupiter) have fresh snapshots
+```
+
 ## Benchmarks
 
 There's a disk benchmarking script included, which allows me to test various performance scenarios on the server.

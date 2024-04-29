@@ -19,5 +19,14 @@ zfs_samba_shares:
     smb_share_name: backup
     smb_comment: Backup storage pool on SSDs.
 
-# ZFS Snapshots are managed via syncoid's `--delete-target-snapshots` option.
-# sanoid_conf: ""
+# Note: --delete-target-snapshots will be available in syncoid after 2.3.x.
+# I would like to use that instead of running sanoid on the target, to keep all
+# sanoid/syncoid snapshots in perfect sync.
+sanoid_conf: >
+  [ssdpool/backup]
+    use_template = production
+    recursive = yes
+
+  [template_production]
+    autosnap = no
+    autoprune = yes

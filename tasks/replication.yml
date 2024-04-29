@@ -70,7 +70,12 @@
     name: "Nightly syncoid replication task."
     minute: "13"
     hour: "7"
-    job: "/usr/sbin/syncoid --sshkey=/home/pi/.ssh/id_rsa_zfs --recursive --no-privilege-elevation --delete-target-snapshots pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter"
+    job: >-
+      /usr/sbin/syncoid
+      --sshkey=/home/pi/.ssh/id_rsa_zfs
+      --recursive
+      --no-privilege-elevation
+      pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter
     user: pi
   run_once: true
   delegate_to: nas02.mmoffice.net
