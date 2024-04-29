@@ -27,6 +27,13 @@
         key: nas01.mmoffice.net ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGttqA5odftU8N9AN05zByZxOzcuHkNNRGcZQfsLT6V/
         path: /etc/ssh/ssh_known_hosts
         state: present
+
+    # Check permissions with `zfs allow [pool/vol]`
+    - name: Configure ZFS so pi user can perform ZFS actions.
+      ansible.builtin.command:
+        cmd: zfs allow -u pi compression,mountpoint,create,mount,receive,rollback,destroy ssdpool/backup
+      changed_when: false
+  run_once: true
   delegate_to: nas02.mmoffice.net
 
 - name: Configure pi user on HL15.
@@ -50,19 +57,13 @@
         state: present
         key: "{{ pi_zfs_pubkey['content'] | b64decode | trim }} pi@nas02"
 
+    # Check permissions with `zfs allow [pool/vol]`
     - name: Configure ZFS so pi user can perform ZFS actions.
-      meta: noop  # TODO SEE BELOW
+      ansible.builtin.command:
+        cmd: zfs allow -u pi send,hold,mount,snapshot,destroy hddpool
+      changed_when: false
+  run_once: true
   delegate_to: nas01.mmoffice.net
-
-# ZFS permissions configuration (check with `zfs allow [pool/vol]`).
-#
-# On nas01
-# sudo zfs allow -u pi send,hold,mount,snapshot,destroy hddpool
-#
-# On nas02
-# sudo zfs allow -u pi compression,mountpoint,create,mount,receive,rollback,destroy ssdpool/backup
-#
-# These commands seem to be idempotent, so we could just run them every time...
 
 # TODO: Add task to replicate nightly (on Pi)?
 # syncoid --sshkey=.ssh/id_rsa_zfs --recursive --no-privilege-elevation pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter
