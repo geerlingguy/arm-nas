@@ -2,14 +2,12 @@
 
 Ansible playbook to configure my Arm NASes:
 
-  - [HL15 with Ampere Altra](https://www.youtube.com/watch?v=Hz5k5WgTkcc)
-  - [Raspberry Pi 5 SATA NAS](https://www.youtube.com/watch?v=l30sADfDiM8)
-
-This playbook assumes you're running Ubuntu 20.04 Server LTS and/or Debian 12.
+  - [HL15 with Ampere Altra](#primary-nas)
+  - [Raspberry Pi 5 SATA NAS](#secondary-nas)
 
 ## Hardware
 
-### Primary NAS - 45Drives HL15
+### <a name="primary-nas"></a>Primary NAS - 45Drives HL15
 
 <p align="center"><img alt="45Homelab HL15 with Jeff Geerling hardware" src="/resources/hl15-hardware.jpeg" height="auto" width="600"></p>
 
@@ -33,7 +31,7 @@ Some of the above links are affiliate links. I have a series of videos showing h
   - Part 1: [How efficient can I build the 100% Arm NAS?](https://www.youtube.com/watch?v=Hz5k5WgTkcc)
   - Part 2: [Silencing the 100% Arm NAS—while making it FASTER?](https://www.youtube.com/watch?v=iD9awxmOGG4)
 
-### Secondary NAS - Raspberry Pi 5 with SATA HAT
+### <a name="secondary-nas"></a>Secondary NAS - Raspberry Pi 5 with SATA HAT
 
 <p align="center"><img alt="Raspberry Pi 5 with Jeff Geerling hardware" src="/resources/raspberrypi-5-hardware.jpeg" height="auto" width="600"></p>
 
@@ -53,7 +51,7 @@ Some of the above links are affiliate links. I have a series of videos showing h
 
 ## Preparing the hardware
 
-The HL15 should not require any special prep, besides having Ubuntu installed. The Raspberry Pi 5 needs its PCIe connection enabled. To do that:
+The HL15 should not require any special prep, besides having Ubuntu installed. The Raspberry Pi 5 is running Debian (Pi OS) and needs its PCIe connection enabled. To do that:
 
   1. Edit the boot config: `sudo nano /boot/firmware/config.txt`
   2. Add in the following config at the bottom and save the file:
@@ -88,6 +86,8 @@ Until [issue #2](https://github.com/geerlingguy/hl15-arm64-nas/issues/2) is reso
 ```
 sudo smbpasswd -a jgeerling
 ```
+
+The same thing goes for the Pi, if you want to access it's ZFS volume.
 
 ## Replication / Backups
 
