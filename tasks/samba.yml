@@ -1,5 +1,5 @@
 ---
-- name: Configure Samba to use usershares.
+- name: Configure Samba.
   community.general.ini_file:
     path: /etc/samba/smb.conf
     section: global
@@ -12,6 +12,8 @@
     - { option: usershare max shares, value: 100 }
     - { option: usershare allow guests, value: 'yes' }
     - { option: usershare owner only, value: 'no' }
+    - { option: vfs objects, value: 'catia fruit streams_xattr' }
+    - { option: fruit:nfs_aces, value: 'no' }
   notify: restart smb
   tags: ['samba']
 
