@@ -19,19 +19,5 @@ zfs_samba_shares:
     smb_share_name: backup
     smb_comment: Backup storage pool on SSDs.
 
-# TODO: See https://lyz-code.github.io/blue-book/sanoid/#configuration_1
-# sanoid_conf: >
-#   # Filesystem Backups
-#   [ssdpool/backup]
-#     use_template = production
-#     recursive = yes
-
-#   # Templates
-#   [ssdpool_production]
-#     frequently = 0
-#     hourly = 36
-#     daily = 30
-#     monthly = 3
-#     yearly = 0
-#     autosnap = yes
-#     autoprune = yes
+# ZFS Snapshots are managed via syncoid's `--delete-target-snapshots` option.
+# sanoid_conf: ""

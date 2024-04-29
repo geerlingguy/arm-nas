@@ -35,12 +35,10 @@ zfs_samba_shares:
   #   smb_comment: Fast storage pool on SSDs.
 
 sanoid_conf: >
-  # Filesystem Backups
   [hddpool/jupiter]
     use_template = production
     recursive = yes
 
-  # Templates
   [template_production]
     frequently = 0
     hourly = 36

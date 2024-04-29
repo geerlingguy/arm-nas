@@ -65,5 +65,12 @@
   run_once: true
   delegate_to: nas01.mmoffice.net
 
-# TODO: Add task to replicate nightly (on Pi)?
-# syncoid --sshkey=.ssh/id_rsa_zfs --recursive --no-privilege-elevation pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter
+- name: Configure nightly syncoid task on Pi.
+  ansible.builtin.cron:
+    name: "Nightly syncoid replication task."
+    minute: "13"
+    hour: "7"
+    job: "/usr/sbin/syncoid --sshkey=/home/pi/.ssh/id_rsa_zfs --recursive --no-privilege-elevation --delete-target-snapshots pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter"
+    user: pi
+  run_once: true
+  delegate_to: nas02.mmoffice.net
