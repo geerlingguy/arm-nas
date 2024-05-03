@@ -47,7 +47,7 @@ The current iteration of the Raspberry Pi 5 SATA NAS I'm running contains the fo
 Some of the above links are affiliate links. I have a series of videos showing how I put this system together:
 
   - Part 1: [The ULTIMATE Raspberry Pi 5 NAS](https://www.youtube.com/watch?v=l30sADfDiM8)
-  - Part 2: Coming soon.
+  - Part 2: [Big NAS, Lil NAS](https://www.youtube.com/watch?v=D8EIs8s303k)
 
 ## Preparing the hardware
 
