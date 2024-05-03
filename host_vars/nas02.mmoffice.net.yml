@@ -28,5 +28,10 @@ sanoid_conf: >
     recursive = yes
 
   [template_production]
+    frequently = 0
+    hourly = 24
+    daily = 30
+    monthly = 3
+    yearly = 0
     autosnap = no
     autoprune = yes

@@ -41,7 +41,7 @@ sanoid_conf: >
 
   [template_production]
     frequently = 0
-    hourly = 36
+    hourly = 24
     daily = 30
     monthly = 3
     yearly = 0
