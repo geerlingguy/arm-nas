@@ -12,14 +12,11 @@ zfs_pools:
       /dev/disk/by-id/wwn-0x5000c500e3d61ce0
       /dev/disk/by-id/wwn-0x5000c500e3d4848c
       /dev/disk/by-id/wwn-0x5000c500e3d5107b
-  # - name: ssdpool
-  #   members: >-
-  #     mirror
-  #     scsi-SATA_Samsung_SSD_870_S5VUNG0NA00552B
-  #     scsi-SATA_Samsung_SSD_870_S5VUNG0R403210A
-  #     mirror
-  #     scsi-SATA_Samsung_SSD_870_S5VUNJ0R801559R
-  #     scsi-SATA_Samsung_SSD_870_S5VUNJ0R802311N
+  - name: nvmepool
+    members: >-
+      mirror
+      /dev/disk/by-id/nvme-KIOXIA_KCD8XRUG15T3_8240A01KTY97
+      /dev/disk/by-id/nvme-KIOXIA_KCD8XRUG15T3_8240A01MTY97
 
 zfs_samba_shares:
   - name: hddpool/jupiter
@@ -28,14 +25,27 @@ zfs_samba_shares:
       compression: 'lz4'
     smb_share_name: jupiter
     smb_comment: Archival storage pool on HDDs.
-  # - name: ssdpool/mercury
-  #   extra_zfs_properties:
-  #     casesensitivity: 'mixed'
-  #   smb_share_name: mercury
-  #   smb_comment: Fast storage pool on SSDs.
+  - name: nvmepool/mercury
+    extra_zfs_properties:
+      casesensitivity: 'mixed'
+      compression: 'lz4'
+    smb_share_name: mercury
+    smb_comment: Fast storage pool on NVMe.
+  - name: nvmepool/ingest
+    extra_zfs_properties:
+      casesensitivity: 'mixed'
+      compression: 'lz4'
+    owner: zowiebox
+    group: sudo
+    smb_share_name: ingest
+    smb_comment: Ingest storage pool on NVMe.
 
 sanoid_conf: >
   [hddpool/jupiter]
+    use_template = production
+    recursive = yes
+
+  [nvmepool/mercury]
     use_template = production
     recursive = yes
 

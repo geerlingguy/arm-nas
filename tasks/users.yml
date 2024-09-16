@@ -1,0 +1,9 @@
+---
+- name: Create zowiebox user on HL15 for ingest.
+  ansible.builtin.user:
+    name: zowiebox
+    shell: /usr/sbin/nologin
+    create_home: false
+    state: present
+  run_once: true
+  delegate_to: nas01.mmoffice.net

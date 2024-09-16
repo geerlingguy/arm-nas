@@ -32,14 +32,15 @@
   ansible.builtin.file:
     path: "/{{ item.name }}"
     state: directory
-    owner: "{{ zfs_samba_owner }}"
-    group: "{{ zfs_samba_group }}"
+    owner: "{{ item.owner | default(zfs_samba_owner) }}"
+    group: "{{ item.group | default(zfs_samba_group) }}"
     mode: 0775
   loop: "{{ zfs_samba_shares }}"
   tags: ['samba']
 
 # TODO: See https://stackoverflow.com/a/46428282/100134
-# For now, manually run `sudo smbpasswd -a jgeerling`
+# For now, manually run `sudo smbpasswd -a [samba username]`
+# Current accounts: jgeerling, zowiebox
 - name: Configure Samba passwords (not yet implemented).
   ansible.builtin.meta: noop
   tags: ['samba']

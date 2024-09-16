@@ -12,6 +12,9 @@
     - geerlingguy.sanoid
 
   tasks:
+    - name: Configure user accounts.
+      include_tasks: tasks/users.yml
+
     - name: Install ZFS and prerequisites.
       ansible.builtin.package:
         name:

@@ -120,6 +120,37 @@ chmod +x disk-benchmark.sh
 sudo ./disk-benchmark.sh
 ```
 
+## Troubleshooting
+
+### Samba Monitoring
+
+If you're having trouble mounting a share or authenticating with Samba, run `sudo watch smbstatus` to monitor connections to the server. Logs inside `/var/log/samba` aren't useful by default.
+
+### ZFS Command Line Cheat Sheet
+
+```
+# Check pool health (should return 'all pools are healthy')
+zpool status -x
+
+# List all zfs pools and datasets
+zfs list
+
+# List all zfs pool info
+zpool list
+
+# List single zfs pool info (verbose)
+zpool status -v [pool_name]
+
+# List all properties for a pool
+zfs get all [pool_name]
+
+# Scrub a pool manually (check progress with `zpool status -v`)
+zpool scrub [pool_name]
+
+# Monitor zfs I/O statistics (update every 2s)
+zpool iostat 2
+```
+
 ## License
 
 GPLv3 or later
