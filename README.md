@@ -111,13 +111,14 @@ OK: all monitored datasets (hddpool/jupiter) have fresh snapshots
 
 ## Benchmarks
 
-There's a disk benchmarking script included, which allows me to test various performance scenarios on the server.
+I like to verify the performance of my NAS storage pools on the device itself, using my [`disk-benchmark.sh` script](https://github.com/geerlingguy/pi-cluster/blob/master/benchmarks/disk-benchmark.sh).
 
 You can run it by copying it to the server, making it executable, and running it with `sudo`:
 
 ```
+wget https://raw.githubusercontent.com/geerlingguy/pi-cluster/master/benchmarks/disk-benchmark.sh
 chmod +x disk-benchmark.sh
-sudo ./disk-benchmark.sh
+sudo MOUNT_PATH=/nvmepool/mercury TEST_SIZE=20g ./disk-benchmark.sh
 ```
 
 ## Troubleshooting
