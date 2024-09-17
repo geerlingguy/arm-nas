@@ -60,22 +60,32 @@
     # Check permissions with `zfs allow [pool/vol]`
     - name: Configure ZFS so pi user can perform ZFS actions.
       ansible.builtin.command:
-        cmd: zfs allow -u pi send,hold,mount,snapshot,destroy hddpool
+        cmd: "zfs allow -u pi send,hold,mount,snapshot,destroy {{ item }}"
       changed_when: false
+      loop:
+        - hddpool
+        - nvmepool
   run_once: true
   delegate_to: nas01.mmoffice.net
 
 - name: Configure nightly syncoid task on Pi.
   ansible.builtin.cron:
-    name: "Nightly syncoid replication task."
+    name: "{{ item.name }}"
     minute: "13"
-    hour: "7"
+    hour: "{{ item.hour }}"
     job: >-
       /usr/sbin/syncoid
       --sshkey=/home/pi/.ssh/id_rsa_zfs
       --recursive
       --no-privilege-elevation
-      pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter
+      {{ item.job }}
     user: pi
+  loop:
+    - name: "Nightly syncoid replication - jupiter"
+      hour: "7"
+      job: pi@nas01.mmoffice.net:hddpool/jupiter ssdpool/backup/jupiter
+    - name: "Nightly syncoid replication - mercury"
+      hour: "8"
+      job: pi@nas01.mmoffice.net:nvmepool/mercury ssdpool/backup/mercury
   run_once: true
   delegate_to: nas02.mmoffice.net
