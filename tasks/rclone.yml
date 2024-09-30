@@ -1,0 +1,35 @@
+---
+# General structure gleaned from stefangweichinger.ansible_rclone
+- block:
+  run_once: true
+  delegate_to: nas02.mmoffice.net
+
+  - name: Get latest rclone version.
+    ansible.builtin.uri:
+      url: https://downloads.rclone.org/version.txt
+      return_content: true
+    register: rclone_latest_version
+    check_mode: false
+
+  - name: Set version to latest stable version.
+    ansible.builtin.set_fact:
+      rclone_version: "{{ rclone_latest_version.content | replace('rclone v', '', 1) | trim }}"
+
+  - name: Download rclone.
+    ansible.builtin.unarchive:
+      src: https://downloads.rclone.org/v{{ rclone_version }}/rclone-v{{ rclone_version }}-linux-{{ rclone_arch }}.zip
+      dest: "/tmp"
+      remote_src: true
+      mode: '0744'
+      creates: "{{ rclone_setup_tmp_dir }}/rclone-v{{ rclone_version }}-linux-{{ rclone_arch }}"
+    changed_when: false
+
+  - name: Copy rclone binary into place.
+    ansible.builtin.copy:
+      src: "/tmp/rclone-v{{ rclone_version }}-linux-{{ rclone_arch }}/rclone"
+      dest: '/usr/local/bin/rclone'
+      mode: '0755'
+      owner: root
+      group: root
+      force: true
+      remote_src: true

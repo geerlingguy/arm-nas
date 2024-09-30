@@ -12,3 +12,5 @@ samba_daemon: smbd
 # Ownership for the samba share directories.
 zfs_samba_owner: "{{ ansible_user }}"
 zfs_samba_group: sudo
+
+rclone_arch: "arm64"

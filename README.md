@@ -109,6 +109,10 @@ jgeerling@nas01:~$ sudo sanoid --monitor-snapshots
 OK: all monitored datasets (hddpool/jupiter) have fresh snapshots
 ```
 
+### Offsite Backups to Amazon Glacier
+
+TODO: See https://github.com/geerlingguy/arm-nas/issues/14
+
 ## Benchmarks
 
 I like to verify the performance of my NAS storage pools on the device itself, using my [`disk-benchmark.sh` script](https://github.com/geerlingguy/pi-cluster/blob/master/benchmarks/disk-benchmark.sh).

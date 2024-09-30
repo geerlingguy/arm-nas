@@ -44,3 +44,6 @@
 
     - name: Configure user for ZFS replication.
       include_tasks: tasks/replication.yml
+
+    # - name: Set up rclone.
+    #   include_tasks: tasks/rclone.yml
