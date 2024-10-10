@@ -1,8 +1,6 @@
 ---
 # General structure gleaned from stefangweichinger.ansible_rclone
 - block:
-  run_once: true
-  delegate_to: nas02.mmoffice.net
 
   - name: Get latest rclone version.
     ansible.builtin.uri:
@@ -21,7 +19,7 @@
       dest: "/tmp"
       remote_src: true
       mode: '0744'
-      creates: "{{ rclone_setup_tmp_dir }}/rclone-v{{ rclone_version }}-linux-{{ rclone_arch }}"
+      creates: "/tmp/rclone-v{{ rclone_version }}-linux-{{ rclone_arch }}"
     changed_when: false
 
   - name: Copy rclone binary into place.
@@ -33,3 +31,23 @@
       group: root
       force: true
       remote_src: true
+
+  - name: Copy rclone backup script into place.
+    ansible.builtin.copy:
+      src: files/rclone.sh
+      dest: /home/pi/rclone.sh
+      mode: 0755
+    become: false
+
+  - name: Add cron job to run rclone backup weekly, at 0100 on Sundays.
+    ansible.builtin.cron:
+      name: Run rclone backup script.
+      minute: "0"
+      hour: "1"
+      weekday: "0"
+      job: /home/pi/rclone.sh
+      state: present
+    become: false
+
+  run_once: true
+  delegate_to: nas02.mmoffice.net

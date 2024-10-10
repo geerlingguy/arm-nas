@@ -111,7 +111,19 @@ OK: all monitored datasets (hddpool/jupiter) have fresh snapshots
 
 ### Offsite Backups to Amazon Glacier
 
-TODO: See https://github.com/geerlingguy/arm-nas/issues/14
+Following the [1-2-3 Backup Principle](https://www.jeffgeerling.com/blog/2021/my-backup-plan), I have an offsite replica of all my data stored on an Amazon S3 Glacier Deep Archive-backed bucket.
+
+This keeps offsite storage costs minimal (about $1/TB/month), and using `rclone`, it is easy enough to keep things in sync between my onsite backups and S3.
+
+The S3 bucket is owned by IAM user `rclone`, and is named `mm-archive`.
+
+Locally, `rclone config` is set up with an Access Key and Secret Access Key for that `rclone` IAM user, and allows NAS02 to synchronize directories straight into the Amazon S3 bucket.
+
+Full documentation of the setup is in [this GitHub issue](https://github.com/geerlingguy/arm-nas/issues/14).
+
+#### Office Backup Retrieval
+
+TODO: We'll cross this bridge if we come to it. The only time I've ever had to retrieve a folder, I used rclone to sync down the directory but it was a bit of a hassle, since Deep Archive means you have to request files to be put back online for retrieval, and this can take 6-24 hours!
 
 ## Benchmarks
 
