@@ -1,13 +1,16 @@
 ---
-- name: Create group for nas-sharers.
+- name: Create groups for shared accounts.
   ansible.builtin.group:
-    name: "nas-sharers"
+    name: "{{ item }}"
     state: present
+  with_items:
+    - "nas-sharers"
+    - "zowiebox"
 
-- name: Make sure Ansible user is in nas-sharers group.
+- name: Make sure Ansible user is in shared groups.
   ansible.builtin.user:
     name: "{{ ansible_user_id }}"
-    groups: "nas-sharers"
+    groups: "nas-sharers,zowiebox"
     append: true
 
 - name: Create extra users on HL15.
