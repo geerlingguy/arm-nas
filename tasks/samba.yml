@@ -14,6 +14,8 @@
     - { option: usershare owner only, value: 'no' }
     - { option: vfs objects, value: 'catia fruit streams_xattr' }
     - { option: fruit:nfs_aces, value: 'no' }
+    - { option: create mask, value: '0664' }
+    - { option: directory mask, value: '2775' }
   notify: restart smb
   tags: ['samba']
 

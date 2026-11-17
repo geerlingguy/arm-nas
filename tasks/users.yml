@@ -9,7 +9,7 @@
 
 - name: Make sure Ansible user is in shared groups.
   ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ ansible_user }}"
     groups: "nas-sharers,zowiebox"
     append: true
 
